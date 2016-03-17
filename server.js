@@ -8,10 +8,14 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var passport = require('passport');
+var flash = require('connect-flash');
 
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
+require('./config/passport')(passport);
 
+//Initializing middlewares
 app.use(morgan('dev')); //logger
 
 app.use(cookieParser()); //parse every cookie
@@ -21,6 +25,12 @@ app.use(session({
   resave : true
 }));
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(passport.initialize());
+app.use(passport.session());  // uses the session created above
+app.use(flash());
+
+
 app.set('view engine', 'ejs');
 
 // app.get('/', function(request,response) {
@@ -30,6 +40,6 @@ app.set('view engine', 'ejs');
 //   console.log(request.session);
 // });
 
-require('./app/routes.js')(app);
+require('./app/routes.js')(app, passport);
 
 app.listen(port);
