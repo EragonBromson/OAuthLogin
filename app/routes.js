@@ -4,6 +4,10 @@ module.exports = function(app){
     response.render('index.ejs');
   });
 
+  app.post('/', function(request, response) {
+    var user = new User();
+  });
+
   app.get('/signup', function(request, response){
     response.render('signup.ejs', {message : 'Victory'});
   });
