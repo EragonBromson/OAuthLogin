@@ -6,7 +6,7 @@ var port = 8080;
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
-
+var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
 var configDB = require('./config/database.js');
@@ -20,6 +20,8 @@ app.use(session({
   saveUninitialized : true,
   resave : true
 }));
+app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
 
 // app.get('/', function(request,response) {
 //   response.send("You are on port: " + port + ".");

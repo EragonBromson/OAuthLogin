@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Welcome </title>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    </head>
+<body>
+    <div id="baseContainer">
+      <div class='row'>
+        <div class= 'card-panel'>
+          <blockquote>
+            <h4>SignUp</h4>
+          </blockquote>
+          <% if (message.length > 0) { %>
+		          <div class="alert alert-danger"><%= message %>
+              </div>
+	        <% } %>
+          <form action = "/signup" method = 'post'>
+            <button class="btn waves-effect waves-light" type="submit" name="signup"> SignUp
+              <i class="fa fa-arrow-circle-right"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+</body>
+</html>
