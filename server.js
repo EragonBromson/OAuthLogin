@@ -20,7 +20,7 @@ app.use(session({
   saveUninitialized : true,
   resave : true
 }));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
 
 // app.get('/', function(request,response) {
