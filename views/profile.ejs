@@ -4,15 +4,77 @@
         <title> Profile Page </title>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-
     </head>
 <body>
   <h1> Profile page. </h1>
   <a href="/logout"><h3>Logout</h3></a>
   <p>
     <strong>id</strong>: <%= user._id %><br>
-		<strong>email</strong>: <%= user.local.username %><br>
+		<strong>username</strong>: <%= user.local.username %><br>
     <strong>password</strong>: <%= user.local.password %>
   </p>
+  <br><br>
+  <!-- FACEBOOK INFO -->
+  <p>
+    <strong>id</strong>: <%= user.facebook.id %><br>
+    <strong>token</strong>: <%= user.facebook.token %><br>
+		<!-- <strong>email</strong>: <%= user.facebook.email %><br> -->
+    <strong>name</strong>: <%= user.facebook.name %><br>
+  </p>
+  <br>
+
+
+
+
+
+  <div class="row">
+    <div id="map" style="height : 150px" class="col s6 offset-s3"></div>
+  </div>
+  <input type="date" class="datepicker">
+  <br>
+
+
+    <script>
+    var date1 = new Date();
+    $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
+    function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 28.61, lng: 77.233},
+    zoom: 4
+  });
+  var infoWindow = new google.maps.InfoWindow({map: map});
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbYejAIZHYm_3xVFNZJcpi7s0mL8PS6cY&callback=initMap"
+    async defer></script>
 </body>
 </html>

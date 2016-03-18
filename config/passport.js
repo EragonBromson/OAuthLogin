@@ -1,5 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
 var User = require('../app/models/user');
+
+var configAuth = require('./auth');
 
 module.exports = function(passport) {
 
@@ -65,5 +69,39 @@ module.exports = function(passport) {
       });
     });
   }));
+
+
+  passport.use(new FacebookStrategy({
+      clientID: configAuth.facebookAuth.clientID,
+      clientSecret: configAuth.facebookAuth.clientSecret,
+      callbackURL: configAuth.facebookAuth.callbackURL,
+      profileFields : configAuth.facebookAuth.profileFields
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      process.nextTick(function(){
+        //All that returns from fb is in profile
+        User.findOne({'facebook.id' : profile.id}, function(error,user){
+          if(error)
+            return cb(error);
+          if(user)
+            return cb(null,user);
+          else{
+            var newUser = new User();
+            newUser.facebook.id = profile.id;
+            newUser.facebook.token = accessToken;
+            newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+            // newUser.facebook.email = null || profile.emails[0].value;
+
+            newUser.save(function(error){
+              if(error){
+                throw error;
+              }
+              return cb(null, newUser);
+            });
+          }
+        });
+      });
+    }
+  ));
 
 }

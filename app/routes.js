@@ -43,6 +43,19 @@ module.exports = function(app, passport){
     response.redirect('/');
   });
 
+  app.get('/auth/facebook',
+    passport.authenticate('facebook'
+    // , {scope: 'email'}
+  ));
+
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/profile');
+    });
+
+
   // app.post('/signup', function(request,response){
   //   var newUser = new User();
   //   newUser.local.username = request.body.username; //body parser puts all the forms data in body.
