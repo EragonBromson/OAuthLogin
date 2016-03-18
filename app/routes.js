@@ -38,6 +38,11 @@ module.exports = function(app, passport){
     });
   });
 
+  app.get('/logout', function(request, response){
+    request.logout(); //passport function
+    response.redirect('/');
+  });
+
   // app.post('/signup', function(request,response){
   //   var newUser = new User();
   //   newUser.local.username = request.body.username; //body parser puts all the forms data in body.
