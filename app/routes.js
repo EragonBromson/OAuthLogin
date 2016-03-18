@@ -25,10 +25,18 @@ module.exports = function(app, passport){
   }));
 
   app.get('/profile', isLoggedIn, function(request,response){
+    console.log("Profile page called: " + request.user);
     response.render('profile.ejs', {user : request.user});
   });
 
-  // app.get('/users', function)
+  app.get('/users', function(request, response){
+    User.find({}, function(error,users){
+      if(error){
+        return next(error);
+      }
+      response.json(users)
+    });
+  });
 
   // app.post('/signup', function(request,response){
   //   var newUser = new User();
@@ -47,7 +55,8 @@ module.exports = function(app, passport){
 
 function isLoggedIn(request, response, next) {
   if(request.isAuthenticated()){
-    return next;
+    console.log("Authenticated");
+    return next();
   }
 
   response.redirect('/login');

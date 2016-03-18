@@ -52,15 +52,15 @@ module.exports = function(passport) {
         if(error){
           return done(error);
         }
+        // console.log(user.local.username);
+        // console.log(user.local.password);
         if(!user){
           return done(null, false, request.flash('loginMessage', 'Username does not exist.'));
         }
+        // console.log(password);
         if(user.local.password != password){
             return done(null, false, request.flash('loginMessage', 'Password incorrect'));
         }
-        console.log(user.local.username);
-        console.log(user.local.password);
-        console.log(password);
         return done(null, user);
       });
     });
