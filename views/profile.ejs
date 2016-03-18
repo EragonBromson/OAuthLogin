@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Profile Page </title>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+    </head>
+<body>
+  <h1> Profile page. </h1>
+  <p>
+    <strong>id</strong>: <%= user._id %><br>
+		<strong>email</strong>: <%= user.local.username %><br>
+    <strong>password</strong>: <%= user.local.password %>
+  </p>
+</body>
+</html>

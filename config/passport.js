@@ -1,5 +1,4 @@
-
-var LocalStrstergy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
 
 module.exports = function(passport) {
@@ -14,7 +13,7 @@ module.exports = function(passport) {
     });
   });
 
-  passport.use('local-signup', new LocalStrstergy({
+  passport.use('local-signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback : true
@@ -39,6 +38,31 @@ module.exports = function(passport) {
           })
         }
       })
+    });
+  }));
+
+  passport.use('local-login', new LocalStrategy({
+    usernameField : 'username',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+  function(request, username, password, done){
+    process.nextTick(function(){
+      User.findOne({'local.username': username}, function(error, user){
+        if(error){
+          return done(error);
+        }
+        if(!user){
+          return done(null, false, request.flash('loginMessage', 'Username does not exist.'));
+        }
+        if(user.local.password != password){
+            return done(null, false, request.flash('loginMessage', 'Password incorrect'));
+        }
+        console.log(user.local.username);
+        console.log(user.local.password);
+        console.log(password);
+        return done(null, user);
+      });
     });
   }));
 
