@@ -1,4 +1,6 @@
 var User = require('./models/user');
+var Todo = require('./models/todo');
+
 module.exports = function(app, passport){
   app.get('/', function(request, response){
     response.render('index.ejs');
@@ -26,8 +28,21 @@ module.exports = function(app, passport){
 
   app.get('/profile', isLoggedIn, function(request,response){
     console.log("Profile page called: " + request.user);
+    console.log("His id is: " + request.user._id + "\n");
     response.render('profile.ejs', {user : request.user});
   });
+
+
+  app.get('/profile/todo_add', isLoggedIn,function(request, response){
+    console.log("Add todo called");
+    console.log("\n\n");
+    // console.log("Form details: \n");
+    // // console.log("User Id: " + request.user._id + "\n");
+    // console.log("Data: " + request.body.data + "\n");
+    // console.log("Date: " + request.body.date + "\n");
+    response.render('addTodo.ejs', {message : request.flash('addTodoMessage'), user : request.user });
+  });
+
 
   app.get('/users', function(request, response){
     User.find({}, function(error,users){
@@ -54,20 +69,6 @@ module.exports = function(app, passport){
       // Successful authentication, redirect home.
       res.redirect('/profile');
     });
-
-
-  // app.post('/signup', function(request,response){
-  //   var newUser = new User();
-  //   newUser.local.username = request.body.username; //body parser puts all the forms data in body.
-  //   newUser.local.password = request.body.password;
-  //   // console.log(newUser.local.username + " " + newUser.local.password);
-  //   newUser.save( function(error){
-  //     if(error){
-  //       throw error;
-  //     }
-  //   });
-  //   response.redirect('/');
-  // });
 
 };
 

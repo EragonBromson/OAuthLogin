@@ -11,7 +11,8 @@ var userSchema = mongoose.Schema({
     token: String,
     // email: String,
     name: String
-  }
+  },
+  todoList:[{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}],
 });
 
 userSchema.methods.generateHash = function(password){

@@ -36,8 +36,9 @@ module.exports = function(passport) {
           newUser.local.username = username;
           newUser.local.password = newUser.generateHash(password);
           newUser.save(function(error){
-            if(error)
+            if(error){
               throw error;
+            }
             return done(null, newUser);
           })
         }
@@ -75,7 +76,8 @@ module.exports = function(passport) {
       clientID: configAuth.facebookAuth.clientID,
       clientSecret: configAuth.facebookAuth.clientSecret,
       callbackURL: configAuth.facebookAuth.callbackURL,
-      profileFields : configAuth.facebookAuth.profileFields
+      // profileFields : configAuth.facebookAuth.profileFields,
+      // passReqToCallback: true
     },
     function(accessToken, refreshToken, profile, cb) {
       process.nextTick(function(){
@@ -89,7 +91,7 @@ module.exports = function(passport) {
             var newUser = new User();
             newUser.facebook.id = profile.id;
             newUser.facebook.token = accessToken;
-            newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+            newUser.facebook.name = profile.name.first_name + ' ' + profile.name.last_name;
             // newUser.facebook.email = null || profile.emails[0].value;
 
             newUser.save(function(error){

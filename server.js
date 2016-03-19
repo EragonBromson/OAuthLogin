@@ -41,5 +41,6 @@ app.set('view engine', 'ejs');
 // });
 
 require('./app/routes.js')(app, passport);
+app.use(express.static(__dirname + '/public'));
 
 app.listen(port);
