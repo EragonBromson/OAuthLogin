@@ -36,11 +36,44 @@ module.exports = function(app, passport){
   app.get('/profile/todo_add', isLoggedIn,function(request, response){
     console.log("Add todo called");
     console.log("\n\n");
-    // console.log("Form details: \n");
-    // // console.log("User Id: " + request.user._id + "\n");
-    // console.log("Data: " + request.body.data + "\n");
-    // console.log("Date: " + request.body.date + "\n");
     response.render('addTodo.ejs', {message : request.flash('addTodoMessage'), user : request.user });
+  });
+
+  app.post('/profile/todo_add', function(request,response){
+    console.log('Post on add todo called.');
+    console.log("Form details: \n");
+    console.log("User Id: " + request.user + "\n");
+    console.log("Data: " + request.body.data + "\n");
+    console.log("Date: " + request.body.date + "\n");
+    console.log("todoList: " + typeof(request.user.todoList) + "\n.");
+    console.log(request.user.todoList.length);
+    if(request.user.todoList.length === 0){
+      request.user.todoList = new Todo();
+      // var newTodo = new Todo();
+      // newTodo.data = request.body.data;
+      request.user.todoList.data = request.body.data;
+      request.user.todoList.date = request.body.date;
+      // newTodo.date = request.body.date;
+      // newTodo = request.user.todoList._id;
+      // console.log("newTodo : " + newTodo);
+
+      var todo_size = request.user.todoList.length;
+      console.log(todo_size + "\n");
+      console.log(request.user);
+      console.log(request.user.todoList + "\n\n" + request.user.todoList.data + "\n\n" + request.user.todoList.date);
+      request.user.save();
+    } else {
+      var newTodo = new Todo();
+      newTodo.data = request.body.data;
+      newTodo.date = request.body.date;
+      console.log("newTodo : " + newTodo);
+      request.user.todoList.concat(newTodo);
+      console.log("\n\n After newTodo:  \n" + request.user.todoList);
+    }
+
+
+    response.redirect('/profile');
+
   });
 
 
