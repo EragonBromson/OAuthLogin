@@ -44,13 +44,13 @@ module.exports = function(app, passport){
     console.log("Form details: \n");
     console.log("User Id: " + request.user + "\n");
     console.log("Data: " + request.body.data + "\n");
-    console.log("Date: " + request.body.date + "\n");
+    console.log("Date: " + request.body.date + "  " + request.body.time + "\n");
     console.log("todoList: " + typeof(request.user.todoList) + "\n.");
     console.log(request.user.todoList.length);
     if(request.user.todoList.length === 0){
       request.user.todoList = new Todo();
       request.user.todoList.data = request.body.data;
-      request.user.todoList.date = request.body.date;
+      request.user.todoList.date = new Date(''+request.body.date+' '+request.body.time+':00');
 
       var todo_size = request.user.todoList.length;
       console.log(todo_size + "\n");
@@ -59,13 +59,13 @@ module.exports = function(app, passport){
     } else {
       var newTodo = new Todo();
       newTodo.data = request.body.data;
-      newTodo.date = request.body.date;
+      newTodo.date =  new Date(''+request.body.date+' '+request.body.time+':00');
       console.log("newTodo : " + newTodo);
       request.user.todoList.push(newTodo);
       console.log("\n\n After newTodo:  \n" + request.user.todoList);
     }
 
-    request.user.save();
+    // request.user.save();
     response.redirect('/profile');
 
   });

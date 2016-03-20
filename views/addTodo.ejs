@@ -4,7 +4,8 @@
         <title> Profile Page </title>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-        <link rel="stylesheet" href="../materialize/css/materialize.css">
+      <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.css" media="screen,projection">
+      <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.clockpicker.css" media="screen,projection"/>
 
     </head>
 <body>
@@ -25,6 +26,10 @@
               <input type="date" class="datepicker" name="date">
               <label for="date">Date</label>
           </div>
+          <div class="input-field col s12">
+            <label for="input_starttime">Time</label>
+            <input id="input_starttime" class="timepicker" type="text" name="time">
+          </div>
           <button class="btn waves-effect waves-light" type="submit" name="submitdata"> Submit Data
             <i class="fa fa-arrow-circle-right"></i>
           </button>
@@ -36,14 +41,22 @@
 
   <br>
   <a href="/profile"><h6> Profile page </h6></a>
-
-  <script src="../js/jquery.min.js"></script>
-  <script src="../materialize/js/materialize.js"></script>
-  <script>
-  $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../materialize/js/materialize.js"></script>
+    <script src="../materialize/js/materialize.clockpicker.js"></script>
+    <script>
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 10 // Creates a dropdown of 15 years to control year
+    });
+    </script>
+    <script type="text/javascript">
+    $('#input_starttime').pickatime({
+      twelvehour: false,
+      autoclose: false,
+      default: 'now'
+    });
+    $('.datepicker').pickadate();
   </script>
 </body>
 </html>
