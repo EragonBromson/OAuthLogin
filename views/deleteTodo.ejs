@@ -16,14 +16,20 @@
       <li class="collection-header"> todoList ID: <%= user.todoList[i]._id %>
         <ul>
           <li class="collection-item"> todoList data: <%= user.todoList[i].data %></li>
-          <li class="collection-item"> todoList date: <%= user.todoList[i].date %></li>
+        <li class="collection-item"> todoList date: <%= user.todoList[i].date %></li>
         </ul>
       </li>
     <% } %>
   </ul>
 
-  <a href="/profile">Profile page</a>
+  <form action="/profile/todo_delete" method="post">
+    <div class="input-field col s12">
+      <input id="todoListId" type="text" class="validate" name="todoListId">
+      <label for="todoListId">Enter the todo ID number</label>
+    </div>
+  </form>
 
+  <a href="/profile">Profile</a>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 </body>

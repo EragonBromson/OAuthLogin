@@ -100,6 +100,31 @@ module.exports = function(app, passport){
 
   });
 
+  app.get('/profile/todo_delete', isLoggedIn, function(request, response){
+    console.log("Delete Todo called.");
+    User.findOne({'_id' : request.user._id})
+      .populate('todoList')
+      .exec( function(error, userFound){
+        if(error){
+          return next(error);
+        }
+        console.log(userFound);
+        response.render('deleteTodo.ejs',{ user : userFound });
+        // response.send(users.todoList);
+      });
+  });
+
+  app.post('/profile/todo_delete', isLoggedIn, function(request, response){
+    console.log("Delete Todo  post called.");
+    console.log(request.body.todoListId);
+    console.log(request.user.todoList.indexOf(request.body.todoListId));
+    var position = request.user.todoList.indexOf(request.body.todoListId);
+    request.user.todoList.splice(position,1);
+    console.log(request.user.todoList);
+    request.user.save();
+    response.redirect('/profile');
+  });
+
   app.get('/users', function(request, response){
     User.find({}, function(error,users){
       if(error){
