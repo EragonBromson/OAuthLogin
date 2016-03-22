@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Show </title>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <!-- <link rel="stylesheet" href="../materialize/css/materialize.css"> -->
+
+    </head>
+<body>
+  <strong>User ID: </strong><%= user._id %><br>
+  <strong>User todoList: </strong><%= user.todoList %>
+
+  <ul class="collection with-header">
+    <% for(var i=0; i < user.todoList.length; i++) { %>
+      <li class="collection-header"> todoList ID: <%= user.todoList[i]._id %>
+        <ul>
+          <li class="collection-item"> todoList data: <%= user.todoList[i].data %></li>
+          <li class="collection-item"> todoList date: <%= user.todoList[i].date %></li>
+        </ul>
+      </li>
+    <% } %>
+  </ul>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+</body>
+</html>

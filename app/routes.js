@@ -45,31 +45,60 @@ module.exports = function(app, passport){
     console.log("User Id: " + request.user + "\n");
     console.log("Data: " + request.body.data + "\n");
     console.log("Date: " + request.body.date + "  " + request.body.time + "\n");
+    // console.log(typeof(request.body.date));
     console.log("todoList: " + typeof(request.user.todoList) + "\n.");
     console.log(request.user.todoList.length);
     if(request.user.todoList.length === 0){
-      request.user.todoList = new Todo();
-      request.user.todoList.data = request.body.data;
-      request.user.todoList.date = new Date(''+request.body.date+' '+request.body.time+':00');
+      // request.user.todoList = new Todo();
+      var newTodo = new Todo();
+      newTodo.data = request.body.data;
+      newTodo.date =  new Date(''+request.body.date+' '+request.body.time+':00');
+      newTodo.save();
 
+      request.user.todoList.push(newTodo._id);  //todoList: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}]  List has objects of type ID.
+
+      console.log("newTodo : " + newTodo);
+      // request.user.todoList.data = request.body.data;
+      // request.user.todoList.date = request.body.date;
       var todo_size = request.user.todoList.length;
       console.log(todo_size + "\n");
       console.log(request.user);
-      console.log(request.user.todoList + "\n\n" + request.user.todoList.data + "\n\n" + request.user.todoList.date);
+      console.log(request.user.todoList + "\n\n" + request.user.todoList[0].data + "\n\n" + request.user.todoList[0].date);
     } else {
       var newTodo = new Todo();
       newTodo.data = request.body.data;
       newTodo.date =  new Date(''+request.body.date+' '+request.body.time+':00');
       console.log("newTodo : " + newTodo);
-      request.user.todoList.push(newTodo);
+      newTodo.save();
+
+      request.user.todoList.push(newTodo._id);
+      // console.log(request.user.todoList + "\n\n" + request.user.todoList[3].data + "\n\n" + request.user.todoList[3].date);
       console.log("\n\n After newTodo:  \n" + request.user.todoList);
     }
 
-    // request.user.save();
+    request.user.save();
+    console.log(request.user.todoList + "\n\n" + request.user.todoList[0].data + "\n\n" + request.user.todoList[0].date);
     response.redirect('/profile');
 
   });
 
+  app.get('/profile/todo_show', isLoggedIn, function(request, response){
+    console.log("Show Todo called.\n\n");
+    User.findOne({'_id' : request.user._id})
+      .populate('todoList')
+      .exec( function(error, userFound){
+        if(error){
+          return next(error);
+        }
+        console.log(userFound);
+        response.render('showTodo.ejs',{ user : userFound });
+        // response.send(users.todoList);
+      });
+    console.log(request.user.todoList);
+    console.log(request.user.todoList);
+    // response.redirect('/profile');
+
+  });
 
   app.get('/users', function(request, response){
     User.find({}, function(error,users){
